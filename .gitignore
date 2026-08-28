@@ -64,7 +64,6 @@ setup.cfg
 PKG-INFO
 setup.py
 
-
 /backup/
 /backup
 /setup/odoo-server.conf
