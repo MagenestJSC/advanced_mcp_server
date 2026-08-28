@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="adv_bulk_action_view_form" model="ir.ui.view">
+        <field name="name">adv.bulk.action.form</field>
+        <field name="model">adv.bulk.action</field>
+        <field name="arch" type="xml">
+            <form string="Confirmation">
+                <field name="operation" invisible="1" />
+                <div invisible="operation != 'revoke'">
+                    Revoke the selected tokens? Each client will have to re-authenticate.
+                </div>
+                <div invisible="operation != 'deactivate'">
+                    Deactivate the selected clients? Every access token they issued stops working immediately.
+                </div>
+                <footer>
+                    <button name="action_confirm" string="Ok" type="object" class="btn-primary" data-hotkey="q" />
+                    <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="z" />
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

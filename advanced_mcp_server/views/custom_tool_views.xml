@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="adv_custom_tool_view_list" model="ir.ui.view">
+        <field name="name">adv.custom.tool.list</field>
+        <field name="model">adv.custom.tool</field>
+        <field name="arch" type="xml">
+            <list string="Custom Tools">
+                <field name="name" />
+                <field name="description" />
+                <field name="is_readonly" widget="boolean_toggle" />
+                <field name="active" widget="boolean_toggle" />
+            </list>
+        </field>
+    </record>
+
+    <record id="adv_custom_tool_view_form" model="ir.ui.view">
+        <field name="name">adv.custom.tool.form</field>
+        <field name="model">adv.custom.tool</field>
+        <field name="arch" type="xml">
+            <form string="Custom Tool">
+                <sheet>
+                    <group>
+                        <field name="name" />
+                        <field name="description" />
+                        <field name="is_readonly" />
+                        <field name="active" />
+                    </group>
+                    <group string="Input Schema (JSON)">
+                        <group colspan="2">
+                            <field name="input_schema" widget="ace" options="{'mode':'javascript'}" nolabel="1" />
+                        </group>
+                    </group>
+                    <group string="Server Action">
+                        <field name="action_id" />
+                    </group>
+                    <div class="alert alert-info" role="alert">
+                        In the server action code, use <code>adv['args']</code> to access tool arguments and set <code>adv['result']</code> for the return value.
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_adv_custom_tool" model="ir.actions.act_window">
+        <field name="name">Custom Tools</field>
+        <field name="res_model">adv.custom.tool</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="adv_server_config_view_form" model="ir.ui.view">
+        <field name="name">adv.server.config.form</field>
+        <field name="model">adv.server.config</field>
+        <field name="arch" type="xml">
+            <form string="Gateway Configuration" create="false" delete="false" duplicate="false">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>Advanced MCP Gateway</h1>
+                    </div>
+                    <group string="Access">
+                        <field name="enabled" string="Gateway Enabled" />
+                        <field name="enable_oauth" string="OAuth 2.1" invisible="not enabled" />
+                        <field name="allowed_origins" string="Allowed Origins"
+                            placeholder="https://app.example.com, https://other.example.com"
+                            invisible="not enabled" />
+                    </group>
+                    <group string="Rate Limiting" invisible="not enabled">
+                        <field name="enable_rate_limiting" />
+                        <field name="request_limit" string="Requests / Minute (per user)"
+                            invisible="not enable_rate_limiting" />
+                        <field name="admin_request_limit" string="Admin Requests / Minute"
+                            invisible="not enable_rate_limiting" />
+                    </group>
+                    <group string="Event Logging" invisible="not enabled">
+                        <field name="enable_logging" />
+                        <field name="log_retention_days" string="Retention (days)"
+                            invisible="not enable_logging" />
+                    </group>
+                    <group string="Tool Limits" invisible="not enabled">
+                        <field name="default_limit" string="Default record limit" />
+                        <field name="max_limit" string="Max record limit" />
+                        <field name="max_smart_fields" string="Max smart fields" />
+                        <field name="max_related_items" string="Max related items (fetch)" />
+                    </group>
+                    <group string="Quick Links" invisible="not enabled">
+                        <div>
+                            <button name="%(advanced_mcp_server.action_adv_module_access)d"
+                                icon="oi-arrow-right" type="action"
+                                string="Module Access" class="btn-link" />
+                        </div>
+                        <div>
+                            <button name="%(advanced_mcp_server.action_adv_custom_tool)d"
+                                icon="oi-arrow-right" type="action"
+                                string="Custom Tools" class="btn-link" />
+                        </div>
+                        <div>
+                            <button name="%(advanced_mcp_server.action_adv_audit_log)d"
+                                icon="oi-arrow-right" type="action"
+                                string="Gateway Events" class="btn-link" />
+                        </div>
+                        <div>
+                            <button name="%(advanced_mcp_server.action_adv_oauth_clients)d"
+                                icon="oi-arrow-right" type="action"
+                                string="OAuth Clients" class="btn-link"
+                                invisible="not enable_oauth" />
+                        </div>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_adv_server_config" model="ir.actions.act_window">
+        <field name="name">Gateway Configuration</field>
+        <field name="res_model">adv.server.config</field>
+        <field name="view_mode">form</field>
+        <field name="res_id" ref="adv_server_config_default" />
+        <field name="target">current</field>
+        <field name="context">{'create': False, 'delete': False}</field>
+    </record>
+</odoo>

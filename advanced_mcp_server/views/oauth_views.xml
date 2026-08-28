@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="adv_oauth_client_view_list" model="ir.ui.view">
+        <field name="name">adv.oauth.client.list</field>
+        <field name="model">adv.oauth.client</field>
+        <field name="arch" type="xml">
+            <list string="OAuth Clients" create="false">
+                <field name="client_name" />
+                <field name="client_id" />
+                <field name="scope" />
+                <field name="active" widget="boolean_toggle" />
+                <field name="create_date" string="Registered" />
+            </list>
+        </field>
+    </record>
+
+    <record id="adv_oauth_client_view_form" model="ir.ui.view">
+        <field name="name">adv.oauth.client.form</field>
+        <field name="model">adv.oauth.client</field>
+        <field name="arch" type="xml">
+            <form string="OAuth Client" create="false">
+                <sheet>
+                    <group>
+                        <field name="client_name" />
+                        <field name="client_id" />
+                        <field name="scope" />
+                        <field name="redirect_uris" />
+                        <field name="active" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_adv_oauth_clients" model="ir.actions.act_window">
+        <field name="name">OAuth Clients</field>
+        <field name="res_model">adv.oauth.client</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="adv_oauth_token_view_list" model="ir.ui.view">
+        <field name="name">adv.oauth.token.list</field>
+        <field name="model">adv.oauth.token</field>
+        <field name="arch" type="xml">
+            <list string="OAuth Tokens" create="false" edit="false">
+                <field name="user_id" />
+                <field name="client" />
+                <field name="scope" />
+                <field name="access_expires_at" />
+                <field name="revoked" />
+                <field name="audience" />
+            </list>
+        </field>
+    </record>
+
+    <record id="action_adv_oauth_tokens" model="ir.actions.act_window">
+        <field name="name">OAuth Tokens</field>
+        <field name="res_model">adv.oauth.token</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <record id="action_adv_bulk_revoke_tokens" model="ir.actions.server">
+        <field name="name">Revoke Selected Tokens</field>
+        <field name="model_id" ref="model_adv_oauth_token" />
+        <field name="binding_model_id" ref="model_adv_oauth_token" />
+        <field name="state">code</field>
+        <field name="code">
+action = env['adv.bulk.action'].create({'operation': 'revoke'}).with_context(active_ids=env.context.get('active_ids',[])).action_form()
+        </field>
+        <field name="group_ids" eval="[(4, ref('advanced_mcp_server.group_adv_admin'))]" />
+    </record>
+
+    <record id="action_adv_bulk_deactivate_clients" model="ir.actions.server">
+        <field name="name">Deactivate Selected Clients</field>
+        <field name="model_id" ref="model_adv_oauth_client" />
+        <field name="binding_model_id" ref="model_adv_oauth_client" />
+        <field name="state">code</field>
+        <field name="code">
+action = env['adv.bulk.action'].create({'operation': 'deactivate'}).with_context(active_ids=env.context.get('active_ids',[])).action_form()
+        </field>
+        <field name="group_ids" eval="[(4, ref('advanced_mcp_server.group_adv_admin'))]" />
+    </record>
+</odoo>

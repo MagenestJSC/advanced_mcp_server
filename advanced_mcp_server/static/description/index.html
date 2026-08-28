@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Magenest Odoo MCP Server — Bring AI Agents Into Your Odoo Workflow</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  /* ---- Magenest brand palette (light theme) ---- */
+  :root{
+    --orange:#FF5500;      /* Mystic Orange   */
+    --orange-dim:#E04C00;
+    --blue:#3754FA;        /* Ultramarine Blue */
+    --blue-dim:#2A3FD1;
+    --dark:#111928;        /* Infinity Dark — used as text color only */
+    --bg:#FFFFFF;           /* White Bounce */
+    --bg-tint:#F4F7FF;      /* white with a touch of blue */
+    --card:#FFFFFF;
+    --gray:#666666;        /* Granite Gray */
+    --silver:#CCCACA;      /* Average Silver */
+    --border:#E6EAF5;
+    --radius:16px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{font-family:'Inter',sans-serif; color:var(--gray); background:var(--bg); line-height:1.65; -webkit-font-smoothing:antialiased;}
+  h1,h2,h3,h4{font-family:'Inter',sans-serif; color:var(--dark); line-height:1.18; font-weight:700;}
+  a{text-decoration:none; color:inherit;}
+  img{max-width:100%; display:block;}
+  .wrap{max-width:1140px; margin:0 auto; padding:0 28px;}
+  .eyebrow{font-size:.8rem; letter-spacing:.09em; text-transform:uppercase; color:var(--blue); font-weight:700; display:inline-flex; align-items:center; gap:8px;}
+  .eyebrow::before{content:""; width:8px; height:8px; border-radius:2px; background:var(--orange);}
+  section{padding:96px 0;}
+  @media(max-width:720px){ section{padding:60px 0;} }
+
+  /* ---------- Inline SVG icon system (no external font / no images) ---------- */
+  .icon{width:1em; height:1em; display:inline-block; vertical-align:-0.125em;}
+  .icon-line{fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round;}
+  .icon-fill{fill:currentColor; stroke:none;}
+
+  /* ---------- Buttons ---------- */
+  .btn{display:inline-flex; align-items:center; gap:10px; padding:15px 28px; border-radius:10px; font-weight:700; font-size:.95rem; transition:transform .15s ease, box-shadow .15s ease, background .15s ease, color .15s ease; cursor:pointer; border:2px solid transparent;}
+  .btn:hover{transform:translateY(-2px);}
+  .btn .icon{font-size:1.05rem;}
+  .btn-primary{background:var(--orange); color:#fff;}
+  .btn-primary:hover{background:var(--orange-dim); box-shadow:0 12px 26px rgba(255,85,0,.28);}
+  .btn-outline{border-color:var(--border); color:var(--dark); background:#fff;}
+  .btn-outline:hover{border-color:var(--blue); color:var(--blue);}
+
+  /* ---------- Icon badges (clear, solid, colored) ---------- */
+  .ic{width:52px; height:52px; border-radius:14px; display:flex; align-items:center; justify-content:center; flex:0 0 52px; font-size:1.4rem;}
+  .ic-blue{background:rgba(55,84,250,.1); color:var(--blue);}
+  .ic-orange{background:rgba(255,85,0,.12); color:var(--orange);}
+
+  /* ---------- Hero ---------- */
+  .hero{background:linear-gradient(180deg, var(--bg-tint) 0%, #FFFFFF 75%); padding:100px 0 80px;}
+  .hero .wrap{display:flex; flex-direction:column; align-items:center; text-align:center;}
+  .hero-copy{max-width:720px;}
+  .hero-copy .eyebrow{display:flex; width:fit-content; margin:0 auto 6px;}
+  .free-badge{display:flex; width:fit-content; align-items:center; gap:8px; background:#fff; border:1px solid var(--border); border-radius:999px; padding:7px 16px; font-size:.8rem; font-weight:700; color:var(--dark); box-shadow:0 4px 14px rgba(17,25,40,.05); margin:0 auto 18px;}
+  .free-badge .dot{width:7px; height:7px; border-radius:50%; background:var(--orange);}
+  .hero h1{font-size:clamp(2.1rem,4.2vw,3.25rem); margin:6px 0 22px; font-weight:800;}
+  .hero h1 span{color:var(--orange);}
+  .hero p.lead{font-size:1.08rem; color:var(--gray); max-width:640px; margin:0 auto 34px;}
+  .hero-ctas{display:flex; gap:16px; flex-wrap:wrap; margin-bottom:30px; justify-content:center;}
+  .hero-note{font-size:.85rem; color:var(--gray); display:flex; align-items:center; gap:10px; justify-content:center;}
+  .hero-note .icon{color:var(--orange);}
+
+  /* feature image below the hero copy */
+  .hero-feature{margin-top:56px; width:100%; max-width:680px;}
+
+  /* matrix signature visual (light) */
+  .matrix-card{background:#fff; border:1px solid var(--border); border-radius:var(--radius); padding:26px 24px; text-align:left; box-shadow:0 20px 48px rgba(17,25,40,.06);}
+  .matrix-head{display:flex; justify-content:space-between; align-items:center; margin-bottom:18px;}
+  .matrix-head span{font-size:.78rem; color:var(--gray); letter-spacing:.05em; font-weight:600;}
+  .matrix-head .pill{font-size:.68rem; font-weight:700; background:rgba(255,85,0,.1); color:var(--orange); padding:4px 11px; border-radius:999px; border:1px solid rgba(255,85,0,.28);}
+  .matrix-cols{display:grid; grid-template-columns:106px repeat(4,1fr); gap:6px; font-size:.7rem; font-weight:700; color:var(--silver); margin-bottom:6px; padding:0 2px;}
+  .matrix-cols span{text-align:center;}
+  .matrix-row{display:grid; grid-template-columns:106px repeat(4,1fr); align-items:center; gap:6px; padding:11px 2px; border-top:1px solid var(--border);}
+  .matrix-row .label{font-size:.82rem; font-weight:600; color:var(--dark);}
+  .matrix-dot{width:13px; height:13px; border-radius:50%; background:#EDEFF6; justify-self:center;}
+  .matrix-dot.on{background:var(--orange); box-shadow:0 0 0 4px rgba(255,85,0,.14); animation:pulse 2.6s ease-in-out infinite;}
+  .matrix-row:nth-child(2) .matrix-dot.on{animation-delay:.1s;}
+  .matrix-row:nth-child(3) .matrix-dot.on{animation-delay:.4s;}
+  .matrix-row:nth-child(4) .matrix-dot.on{animation-delay:.7s;}
+  .matrix-row:nth-child(5) .matrix-dot.on{animation-delay:1s;}
+  @keyframes pulse{0%,100%{opacity:1;} 50%{opacity:.45;}}
+  .matrix-foot{margin-top:16px; padding-top:14px; border-top:1px solid var(--border); display:flex; align-items:center; gap:10px; font-size:.76rem; color:var(--gray);}
+  .matrix-foot .icon{color:var(--blue);}
+
+  /* ---------- Trust bar ---------- */
+  .trust{background:var(--bg-tint); border-top:1px solid var(--border); border-bottom:1px solid var(--border); padding:26px 0;}
+  .trust .wrap{display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:14px;}
+  .trust-item{font-size:.85rem; font-weight:600; color:var(--dark); background:#fff; border:1px solid var(--border); padding:9px 18px; border-radius:999px; display:flex; align-items:center; gap:9px;}
+  .trust-item .icon{color:var(--blue);}
+
+  /* ---------- Section headers ---------- */
+  .sec-head{max-width:640px; margin-bottom:52px;}
+  .sec-head h2{font-size:clamp(1.7rem,3vw,2.25rem); margin-top:10px;}
+  .sec-head.center{margin-left:auto; margin-right:auto; text-align:center;}
+
+  /* ---------- Highlights grid ---------- */
+  .grid-4{display:grid; grid-template-columns:repeat(4,1fr); gap:20px;}
+  @media(max-width:920px){ .grid-4{grid-template-columns:repeat(2,1fr);} }
+  @media(max-width:520px){ .grid-4{grid-template-columns:1fr;} }
+  .hcard{background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:26px 22px; transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;}
+  .hcard:hover{transform:translateY(-4px); box-shadow:0 16px 32px rgba(17,25,40,.08); border-color:var(--blue);}
+  .hcard .ic{margin-bottom:16px;}
+  .hcard h4{font-size:1rem; margin-bottom:6px;}
+  .hcard p{font-size:.9rem; color:var(--gray);}
+
+  /* ---------- Steps ---------- */
+  section.steps-sec{background:var(--bg-tint); border-top:1px solid var(--border); border-bottom:1px solid var(--border);}
+  .steps{display:grid; grid-template-columns:repeat(5,1fr); gap:20px; position:relative;}
+  .steps::before{content:""; position:absolute; top:26px; left:10%; right:10%; height:2px; background:var(--border); z-index:0;}
+  @media(max-width:920px){ .steps{grid-template-columns:1fr; gap:0;} .steps::before{display:none;} }
+  .step{position:relative; z-index:1; text-align:center;}
+  @media(max-width:920px){ .step{display:flex; align-items:flex-start; gap:18px; text-align:left; padding:20px 0; border-top:1px solid var(--border);} .step:first-child{border-top:none;} }
+  .step-num{width:52px; height:52px; border-radius:50%; background:var(--dark); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:1.1rem; margin:0 auto 18px; flex:0 0 52px;}
+  @media(max-width:920px){ .step-num{margin:0;} }
+  .step h4{font-size:.98rem; margin-bottom:6px;}
+  .step p{font-size:.86rem; color:var(--gray);}
+
+  /* ---------- Feature rows ---------- */
+  .feature{display:grid; grid-template-columns:1fr 1fr; gap:70px; align-items:center; padding:64px 0; border-top:1px solid var(--border);}
+  .feature:first-of-type{border-top:none;}
+  .feature.reverse .f-visual{order:-1;}
+  @media(max-width:880px){ .feature, .feature.reverse .f-visual{grid-template-columns:1fr; order:0;} .feature{gap:32px;} }
+  .f-text .eyebrow{margin-bottom:12px;}
+  .f-text h3{font-size:1.5rem; margin-bottom:16px;}
+  .f-text p{margin-bottom:14px; font-size:.98rem;}
+  .f-visual{background:var(--bg-tint); border:1px solid var(--border); border-radius:var(--radius); padding:36px; display:flex; align-items:center; justify-content:center; min-height:230px;}
+  .connect-flow{display:flex; align-items:center; gap:14px; flex-wrap:wrap; justify-content:center;}
+  .connect-flow .node{background:#fff; border:1px solid var(--border); border-radius:14px; padding:20px 24px; text-align:center; box-shadow:0 8px 20px rgba(17,25,40,.06);}
+  .connect-flow .node .ic{margin:0 auto 10px;}
+  .connect-flow .node div.name{font-weight:700; color:var(--dark); font-size:.92rem;}
+  .connect-flow .node span{display:block; font-size:.76rem; color:var(--gray); margin-top:2px;}
+  .connect-flow .arrow-ic{color:var(--orange); font-size:1.3rem;}
+  .layers{display:flex; flex-direction:column; gap:14px; width:100%;}
+  .layer{background:#fff; border:1px solid var(--border); border-radius:14px; padding:18px 20px; display:flex; gap:16px; align-items:flex-start; box-shadow:0 8px 20px rgba(17,25,40,.06);}
+  .layer strong{display:block; font-size:.92rem; color:var(--dark); margin-bottom:2px;}
+  .layer span{font-size:.85rem; color:var(--gray);}
+  .single-icon{display:flex; flex-direction:column; align-items:center; gap:16px;}
+  .single-icon .ic{width:100px; height:100px; border-radius:24px; font-size:2.8rem;}
+  .single-icon span{font-weight:700; color:var(--dark); font-size:.95rem;}
+
+  /* ---------- Business value ---------- */
+  .value{background:var(--bg-tint);}
+  .vcard{background:#fff; border:1px solid var(--border); border-radius:var(--radius); padding:28px 24px;}
+  .vcard .ic{margin-bottom:16px;}
+  .vcard h4{font-size:1.02rem; margin-bottom:8px;}
+  .vcard p{font-size:.9rem; color:var(--gray);}
+
+  /* ---------- Testimonial slider ---------- */
+  .review-carousel{position:relative; max-width:760px; margin:0 auto;}
+  .review-viewport{overflow:hidden; border-radius:var(--radius);}
+  .review-track{display:flex; transition:transform .5s cubic-bezier(.65,0,.35,1);}
+  .tcard{flex:0 0 100%; background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:44px 40px; text-align:center;}
+  .tcard .quote-ic{color:var(--blue); font-size:1.8rem; opacity:.55; margin-bottom:16px;}
+  .stars{color:var(--orange); letter-spacing:2px; margin-bottom:16px; font-size:1rem;}
+  .tcard p.quote{font-size:1.08rem; color:var(--dark); margin-bottom:22px; max-width:560px; margin-left:auto; margin-right:auto;}
+  .tcard .who{font-weight:700; font-size:.95rem; color:var(--dark);}
+  .tcard .role{font-size:.82rem; color:var(--gray);}
+  .rnav{width:44px; height:44px; border-radius:50%; background:#fff; border:1px solid var(--border); display:flex; align-items:center; justify-content:center; position:absolute; top:50%; transform:translateY(-50%); cursor:pointer; color:var(--dark); font-size:1.1rem; transition:background .15s ease, color .15s ease; z-index:2;}
+  .rnav:hover{background:var(--orange); color:#fff; border-color:var(--orange);}
+  .rprev{left:-56px;} .rnext{right:-56px;}
+  @media(max-width:930px){ .rprev{left:6px;} .rnext{right:6px;} .tcard{padding:40px 24px;} }
+  .rdots{display:flex; justify-content:center; gap:9px; margin-top:26px;}
+  .rdot{width:9px; height:9px; border-radius:50%; background:var(--border); border:none; cursor:pointer; padding:0;}
+  .rdot.active{background:var(--orange); width:22px; border-radius:5px; transition:width .2s ease;}
+
+  /* ---------- FAQ ---------- */
+  section.faq-sec{background:var(--bg-tint); border-top:1px solid var(--border);}
+  .faq-item{border-bottom:1px solid var(--border);}
+  .faq-item summary{cursor:pointer; list-style:none; padding:22px 4px; display:flex; justify-content:space-between; align-items:center; gap:16px; font-weight:700; color:var(--dark); font-size:1rem;}
+  .faq-item summary::-webkit-details-marker{display:none;}
+  .faq-item summary .qic{width:30px; height:30px; border-radius:8px; background:rgba(55,84,250,.1); color:var(--blue); display:flex; align-items:center; justify-content:center; flex:0 0 30px; transition:transform .2s ease, background .2s ease, color .2s ease; font-size:.95rem;}
+  .faq-item[open] summary .qic{background:var(--orange); color:#fff; transform:rotate(45deg);}
+  .faq-item p{padding:0 4px 22px 46px; color:var(--gray); font-size:.94rem; max-width:720px;}
+
+  /* ---------- Final CTA ---------- */
+  .cta-final{background:linear-gradient(135deg, var(--bg-tint) 0%, #EAF0FF 100%); border:1px solid var(--border); text-align:center; border-radius:24px; margin:0 28px; padding:76px 28px;}
+  @media(max-width:480px){ .cta-final{margin:0 16px; padding:52px 22px;} }
+  .cta-final h2{font-size:clamp(1.8rem,3.4vw,2.5rem); margin-bottom:16px;}
+  .cta-final p{color:var(--gray); max-width:520px; margin:0 auto 34px;}
+  .cta-final .hero-ctas{justify-content:center; margin-bottom:0;}
+</style>
+</head>
+<body>
+
+<!-- ============== SVG ICON SPRITE (self-contained, no external font/image) ============== -->
+<svg style="display:none" aria-hidden="true">
+  <symbol id="i-shield" viewBox="0 0 24 24"><path class="icon-line" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path class="icon-line" d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline class="icon-line" points="7 10 12 15 17 10"/><line class="icon-line" x1="12" y1="15" x2="12" y2="3"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><polygon class="icon-line" points="5 3 19 12 5 21 5 3"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect class="icon-line" x="3" y="11" width="18" height="11" rx="2" ry="2"/><path class="icon-line" d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+  <symbol id="i-message" viewBox="0 0 24 24"><path class="icon-line" d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></symbol>
+  <symbol id="i-terminal" viewBox="0 0 24 24"><polyline class="icon-line" points="4 17 10 11 4 5"/><line class="icon-line" x1="12" y1="19" x2="20" y2="19"/></symbol>
+  <symbol id="i-box" viewBox="0 0 24 24"><path class="icon-line" d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline class="icon-line" points="3.27 6.96 12 12.01 20.73 6.96"/><line class="icon-line" x1="12" y1="22.08" x2="12" y2="12"/></symbol>
+  <symbol id="i-link" viewBox="0 0 24 24"><path class="icon-line" d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path class="icon-line" d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24"><polygon class="icon-line" points="12 2 2 7 12 12 22 7 12 2"/><polyline class="icon-line" points="2 17 12 22 22 17"/><polyline class="icon-line" points="2 12 12 17 22 12"/></symbol>
+  <symbol id="i-key" viewBox="0 0 24 24"><path class="icon-line" d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><path class="icon-line" d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle class="icon-line" cx="9" cy="7" r="4"/><path class="icon-line" d="M23 21v-2a4 4 0 0 0-3-3.87"/><path class="icon-line" d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+  <symbol id="i-login" viewBox="0 0 24 24"><path class="icon-line" d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline class="icon-line" points="10 17 15 12 10 7"/><line class="icon-line" x1="15" y1="12" x2="3" y2="12"/></symbol>
+  <symbol id="i-check-square" viewBox="0 0 24 24"><polyline class="icon-line" points="9 11 12 14 22 4"/><path class="icon-line" d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24"><line class="icon-line" x1="5" y1="12" x2="19" y2="12"/><polyline class="icon-line" points="12 5 19 12 12 19"/></symbol>
+  <symbol id="i-alert-triangle" viewBox="0 0 24 24"><path class="icon-line" d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line class="icon-line" x1="12" y1="9" x2="12" y2="13"/><line class="icon-line" x1="12" y1="17" x2="12.01" y2="17"/></symbol>
+  <symbol id="i-trending-up" viewBox="0 0 24 24"><polyline class="icon-line" points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline class="icon-line" points="17 6 23 6 23 12"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle class="icon-line" cx="12" cy="12" r="10"/><polyline class="icon-line" points="12 6 12 12 16 14"/></symbol>
+  <symbol id="i-map" viewBox="0 0 24 24"><polygon class="icon-line" points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line class="icon-line" x1="8" y1="2" x2="8" y2="18"/><line class="icon-line" x1="16" y1="6" x2="16" y2="22"/></symbol>
+  <symbol id="i-chevron-left" viewBox="0 0 24 24"><polyline class="icon-line" points="15 18 9 12 15 6"/></symbol>
+  <symbol id="i-chevron-right" viewBox="0 0 24 24"><polyline class="icon-line" points="9 18 15 12 9 6"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><line class="icon-line" x1="12" y1="5" x2="12" y2="19"/><line class="icon-line" x1="5" y1="12" x2="19" y2="12"/></symbol>
+  <symbol id="i-file-text" viewBox="0 0 24 24"><path class="icon-line" d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline class="icon-line" points="14 2 14 8 20 8"/><line class="icon-line" x1="16" y1="13" x2="8" y2="13"/><line class="icon-line" x1="16" y1="17" x2="8" y2="17"/></symbol>
+  <symbol id="i-quote" viewBox="0 0 24 24"><path class="icon-fill" d="M9 7H4a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1h3v2a2 2 0 0 1-2 2H4v2h2a4 4 0 0 0 4-4V8a1 1 0 0 0-1-1zm11 0h-5a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1h3v2a2 2 0 0 1-2 2h-1v2h2a4 4 0 0 0 4-4V8a1 1 0 0 0-1-1z"/></symbol>
+</svg>
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-copy">
+      <div class="free-badge"><span class="dot"></span> Free · Magenest Odoo MCP Server</div>
+      <span class="eyebrow">MCP · Model Context Protocol for Odoo</span>
+      <h1>Bring AI Agents Into Your <span>Odoo</span> Workflow</h1>
+      <p class="lead">Magenest Odoo MCP Server is a free Model Context Protocol integration that connects MCP-compatible AI assistants and agents with Odoo. It enables users to retrieve and work with live Odoo records through natural-language interactions while maintaining the access controls and permissions configured in Odoo.</p>
+      <div class="hero-ctas">
+        <a href="#features" class="btn btn-primary"><svg class="icon"><use href="#i-layers"/></svg> Explore Features</a>
+        <a href="#how-it-works" class="btn btn-outline"><svg class="icon"><use href="#i-play"/></svg> See How It Works</a>
+      </div>
+      <div class="hero-note"><svg class="icon"><use href="#i-shield"/></svg> Every action passes through two independent permission layers before it runs.</div>
+    </div>
+  </div>
+</section>
+
+<div class="trust">
+  <div class="wrap">
+    <span class="trust-item"><svg class="icon"><use href="#i-message"/></svg> Claude — Custom Connector</span>
+    <span class="trust-item"><svg class="icon"><use href="#i-terminal"/></svg> Codex — StreamableHTTP</span>
+    <span class="trust-item"><svg class="icon"><use href="#i-box"/></svg> Odoo 19</span>
+  </div>
+</div>
+
+<!-- ================= HIGHLIGHTS ================= -->
+<section id="highlights">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Key highlights</span>
+      <h2>Everything you need to connect AI safely</h2>
+    </div>
+    <div class="grid-4">
+      <div class="hcard"><div class="ic ic-blue"><svg class="icon"><use href="#i-link"/></svg></div><h4>Connect via MCP</h4><p>Link Odoo to AI Agents through the Model Context Protocol.</p></div>
+      <div class="hcard"><div class="ic ic-orange"><svg class="icon"><use href="#i-message"/></svg></div><h4>Claude &amp; Codex</h4><p>Native support for both platforms, connected in minutes.</p></div>
+      <div class="hcard"><div class="ic ic-blue"><svg class="icon"><use href="#i-layers"/></svg></div><h4>Module-level scope</h4><p>Decide exactly which Odoo modules AI is allowed to touch.</p></div>
+      <div class="hcard"><div class="ic ic-orange"><svg class="icon"><use href="#i-key"/></svg></div><h4>Granular CRUD</h4><p>Read, Write, Create and Delete controlled separately.</p></div>
+      <div class="hcard"><div class="ic ic-blue"><svg class="icon"><use href="#i-users"/></svg></div><h4>Inherited permissions</h4><p>Built on Odoo's existing user permission system.</p></div>
+      <div class="hcard"><div class="ic ic-orange"><svg class="icon"><use href="#i-login"/></svg></div><h4>Real authentication</h4><p>AI acts as an authenticated Odoo account, fully traceable.</p></div>
+      <div class="hcard"><div class="ic ic-blue"><svg class="icon"><use href="#i-check-square"/></svg></div><h4>Approval gates</h4><p>Require confirmation before high-impact tools can run.</p></div>
+      <div class="hcard"><div class="ic ic-orange"><svg class="icon"><use href="#i-shield"/></svg></div><h4>Two-layer control</h4><p>MCP permissions and Odoo permissions, working together.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= HOW IT WORKS ================= -->
+<section id="how-it-works" class="steps-sec">
+  <div class="wrap">
+    <div class="sec-head center">
+      <span class="eyebrow">How it works</span>
+      <h2>From gateway activation to controlled AI execution</h2>
+    </div>
+    <div class="steps">
+      <div class="step"><div class="step-num">1</div><h4>Activate MCP Gateway</h4><p>The Admin enables the Gateway in the Adv MCP module.</p></div>
+      <div class="step"><div class="step-num">2</div><h4>Set Access Permissions</h4><p>Configure which Odoo modules AI can access and assign the corresponding Read, Write, Create, or Delete permissions.</p></div>
+      <div class="step"><div class="step-num">3</div><h4>Connect the AI Agent</h4><p>Add Magenest Odoo MCP Server to an MCP-compatible AI platform such as Claude or Codex.</p></div>
+      <div class="step"><div class="step-num">4</div><h4>Authenticate with Odoo</h4><p>Users sign in with their Odoo account and authorize the connector.</p></div>
+      <div class="step"><div class="step-num">5</div><h4>Perform Tasks Through AI</h4><p>The AI Agent uses approved tools to interact with Odoo within the permissions of both the model and the authenticated user account.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FEATURE DEEP DIVES ================= -->
+<section id="features">
+  <div class="wrap">
+
+    <div class="feature">
+      <div class="f-text">
+        <span class="eyebrow">Feature</span>
+        <h3>Connect AI Agents With Odoo Through MCP</h3>
+        <p>Odoo MCP Server acts as a bridge between Odoo and MCP-compatible AI Agents, letting users interact with Odoo data directly from an AI interface.</p>
+        <p>Once connected, the AI Agent can use the tools it has been granted to access and act on Odoo data within the configured scope.</p>
+      </div>
+      <div class="f-visual" style="padding:0; overflow:hidden;">
+        <img src="mcp3.png" alt="Connect AI Agents With Odoo Through MCP" style="width:100%; object-fit:cover; border-radius:var(--radius);">
+      </div>
+    </div>
+
+    <div class="feature reverse">
+      <div class="f-text">
+        <span class="eyebrow">Feature</span>
+        <h3>Work With Odoo Through AI Chat</h3>
+        <p>Ask AI to complete tasks instead of navigating through multiple Odoo screens manually. The AI Agent uses approved tools to interact with the corresponding data in Odoo.</p>
+        <p>Depending on the permission scope, AI can support reading, creating, updating or deleting records — right from the conversation.</p>
+      </div>
+      <div class="f-visual" style="padding:0; overflow:hidden;">
+        <img src="mcp4.png" alt="Work With Odoo Through AI Chat" style="width:100%; object-fit:cover; border-radius:var(--radius);">
+      </div>
+    </div>
+
+    <div class="feature">
+      <div class="f-text">
+        <span class="eyebrow">Feature</span>
+        <h3>Control AI and User Access</h3>
+        <p>Two independent permission layers decide whether AI is allowed to perform a task — and a task only runs when both agree.</p>
+      </div>
+      <div class="f-visual" style="padding:0; overflow:hidden;">
+        <img src="mcp2.png" alt="Control AI and User Access" style="width:100%; object-fit:cover; border-radius:var(--radius);">
+      </div>
+    </div>
+
+    <div class="feature reverse">
+      <div class="f-text">
+        <span class="eyebrow">Feature</span>
+        <h3>Control High-Impact Actions</h3>
+        <p>Some AI Agent tools may require user approval before they can be executed. Users can allow a tool to run once, or always allow it without repeated confirmation.</p>
+        <p>For sensitive actions such as deleting data, keep the approval step and only grant access when it's truly necessary.</p>
+      </div>
+      <div class="f-visual" style="padding:0; overflow:hidden;">
+        <img src="mcp1.png" alt="Control High-Impact Actions" style="width:100%; object-fit:cover; border-radius:var(--radius);">
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================= BUSINESS VALUE ================= -->
+<section id="value" class="value">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Business value</span>
+      <h2>Why teams adopt Odoo MCP Server</h2>
+    </div>
+    <div class="grid-4">
+      <div class="vcard"><div class="ic ic-orange"><svg class="icon"><use href="#i-trending-up"/></svg></div><h4>Beyond Q&amp;A</h4><p>AI moves from answering questions to executing real tasks on ERP data.</p></div>
+      <div class="vcard"><div class="ic ic-blue"><svg class="icon"><use href="#i-clock"/></svg></div><h4>Fewer manual steps</h4><p>Suitable tasks are completed through conversation, not clicks.</p></div>
+      <div class="vcard"><div class="ic ic-blue"><svg class="icon"><use href="#i-shield"/></svg></div><h4>Existing governance</h4><p>AI still follows both MCP and Odoo permissions — nothing to rebuild.</p></div>
+      <div class="vcard"><div class="ic ic-orange"><svg class="icon"><use href="#i-map"/></svg></div><h4>Roll out by use case</h4><p>Start read-only, then expand to Create or Write when ready.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TESTIMONIAL SLIDER ================= -->
+<section id="reviews">
+  <div class="wrap">
+    <div class="sec-head center">
+      <span class="eyebrow">Customer reviews</span>
+      <h2>What our customers say</h2>
+    </div>
+
+    <div class="review-carousel" id="reviewCarousel">
+      <button class="rnav rprev" id="rPrev" aria-label="Previous review"><svg class="icon"><use href="#i-chevron-left"/></svg></button>
+      <div class="review-viewport">
+        <div class="review-track" id="reviewTrack">
+          <div class="tcard">
+            <svg class="icon quote-ic"><use href="#i-quote"/></svg>
+            <div class="stars">★★★★★</div>
+            <p class="quote">"What we value most is the ability to clearly control which Odoo models AI can access and what actions it is allowed to perform. This makes AI adoption in Odoo more structured and easier to govern."</p>
+            <div class="who">ERP Manager</div>
+            <div class="role">Verified customer</div>
+          </div>
+          <div class="tcard">
+            <svg class="icon quote-ic"><use href="#i-quote"/></svg>
+            <div class="stars">★★★★★</div>
+            <p class="quote">"MCP Server simplifies how we connect Odoo with AI Agents. Instead of building separate integration flows, the team can manage modul-level access directly in the system."</p>
+            <div class="who">Odoo Technical Lead</div>
+            <div class="role">Verified customer</div>
+          </div>
+          <div class="tcard">
+            <svg class="icon quote-ic"><use href="#i-quote"/></svg>
+            <div class="stars">★★★★★</div>
+            <p class="quote">"We started with read-only access before expanding to other tasks. Rolling it out by use case helped our team evaluate impact and manage risks more effectively."</p>
+            <div class="who">Digital Transformation Manager</div>
+            <div class="role">Verified customer</div>
+          </div>
+          <div class="tcard">
+            <svg class="icon quote-ic"><use href="#i-quote"/></svg>
+            <div class="stars">★★★★☆</div>
+            <p class="quote">"The fact that AI still follows Odoo account permissions is important. We can test new workflows without losing the access control structure we already have."</p>
+            <div class="who">IT Manager</div>
+            <div class="role">Verified customer</div>
+          </div>
+        </div>
+      </div>
+      <button class="rnav rnext" id="rNext" aria-label="Next review"><svg class="icon"><use href="#i-chevron-right"/></svg></button>
+      <div class="rdots" id="reviewDots"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FAQ ================= -->
+<section id="faq" class="faq-sec">
+  <div class="wrap" style="max-width:820px;">
+    <div class="sec-head">
+      <span class="eyebrow">FAQ</span>
+      <h2>Frequently asked questions</h2>
+    </div>
+
+    <details class="faq-item" open>
+      <summary>Is Odoo MCP Server an AI chatbot inside Odoo? <span class="qic"><svg class="icon"><use href="#i-plus"/></svg></span></summary>
+      <p>No. Odoo MCP Server is a connection layer between Odoo and AI Agents through MCP. Users interact with AI on platforms such as Claude or Codex, while MCP Server allows AI to access and perform tasks in Odoo based on granted permissions.</p>
+    </details>
+    <details class="faq-item">
+      <summary>Does the AI Agent get full access to Odoo after connection? <span class="qic"><svg class="icon"><use href="#i-plus"/></svg></span></summary>
+      <p>No. AI can only perform actions allowed by both the MCP module-level permissions and the permissions of the user account in Odoo.</p>
+    </details>
+    <details class="faq-item">
+      <summary>Can AI be limited to read-only access? <span class="qic"><svg class="icon"><use href="#i-plus"/></svg></span></summary>
+      <p>Yes. Read, Write, Create and Delete permissions can be configured separately for each module. Enable only Read if you want AI to support data lookup without changing the system.</p>
+    </details>
+    <details class="faq-item">
+      <summary>How should businesses start implementing it? <span class="qic"><svg class="icon"><use href="#i-plus"/></svg></span></summary>
+      <p>Begin with low-risk use cases and clearly defined permission scopes, such as read-only access. Once the process is stable, consider expanding to Create or Write permissions.</p>
+    </details>
+    <details class="faq-item">
+      <summary>Which Odoo versions does it support? <span class="qic"><svg class="icon"><use href="#i-plus"/></svg></span></summary>
+      <p>Odoo MCP Server currently supports Odoo 19, making it easier to integrate AI Agents with multiple Odoo versions currently in use.</p>
+    </details>
+  </div>
+</section>
+
+<!-- ================= FINAL CTA ================= -->
+<section style="padding-top:0;">
+  <div class="cta-final">
+    <span class="eyebrow">Ready when you are</span>
+    <h2>Give AI a safe way into your Odoo data</h2>
+    <p>Install Magenest Odoo MCP Server, define your permissions, and connect your first AI Agent today.</p>
+  </div>
+</section>
+
+<script>
+  (function(){
+    var track = document.getElementById('reviewTrack');
+    var slides = track.children;
+    var dotsWrap = document.getElementById('reviewDots');
+    var total = slides.length;
+    var idx = 0;
+    var timer;
+
+    for (var i = 0; i < total; i++) {
+      (function(i){
+        var d = document.createElement('button');
+        d.className = 'rdot' + (i === 0 ? ' active' : '');
+        d.setAttribute('aria-label', 'Go to review ' + (i+1));
+        d.addEventListener('click', function(){ goTo(i); });
+        dotsWrap.appendChild(d);
+      })(i);
+    }
+
+    function update(){
+      track.style.transform = 'translateX(-' + (idx * 100) + '%)';
+      var dots = dotsWrap.children;
+      for (var j = 0; j < dots.length; j++) {
+        dots[j].classList.toggle('active', j === idx);
+      }
+    }
+    function goTo(i){ idx = (i + total) % total; update(); }
+
+    document.getElementById('rNext').addEventListener('click', function(){ goTo(idx + 1); });
+    document.getElementById('rPrev').addEventListener('click', function(){ goTo(idx - 1); });
+
+    function startAuto(){
+      if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      timer = setInterval(function(){ goTo(idx + 1); }, 6000);
+    }
+    function stopAuto(){ clearInterval(timer); }
+
+    var carousel = document.getElementById('reviewCarousel');
+    carousel.addEventListener('mouseenter', stopAuto);
+    carousel.addEventListener('mouseleave', startAuto);
+    startAuto();
+  })();
+</script>
+
+</body>
+</html>

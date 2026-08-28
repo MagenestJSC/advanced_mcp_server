@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="adv_event_log_view_list" model="ir.ui.view">
+        <field name="name">adv.event.list</field>
+        <field name="model">adv.event</field>
+        <field name="arch" type="xml">
+            <list string="Gateway Events" default_order="id desc" create="false" edit="false" delete="false">
+                <field name="create_date" string="When" />
+                <field name="event_kind" string="Event" />
+                <field name="event_class" string="Class" />
+                <field name="risk_score" string="Risk" />
+                <field name="user_id" />
+                <field name="resource_name" string="Resource" />
+                <field name="operation" />
+                <field name="endpoint" />
+                <field name="duration_ms" string="ms" />
+                <field name="ip_address" />
+            </list>
+        </field>
+    </record>
+
+    <record id="adv_event_log_view_form" model="ir.ui.view">
+        <field name="name">adv.event.form</field>
+        <field name="model">adv.event</field>
+        <field name="arch" type="xml">
+            <form string="Gateway Event" create="false" edit="false" delete="false">
+                <sheet>
+                    <group>
+                        <group string="Identity">
+                            <field name="create_date" string="Timestamp" />
+                            <field name="event_kind" string="Event" />
+                            <field name="event_class" string="Class" />
+                            <field name="risk_score" string="Risk Score" />
+                            <field name="user_id" />
+                            <field name="ip_address" />
+                            <field name="session_id" />
+                        </group>
+                        <group string="Request">
+                            <field name="endpoint" />
+                            <field name="http_method" />
+                            <field name="resource_name" string="Resource" />
+                            <field name="operation" />
+                            <field name="capability_name" string="Capability" />
+                            <field name="duration_ms" string="Duration (ms)" />
+                        </group>
+                        <group string="Auth">
+                            <field name="auth_method" />
+                            <field name="oauth_client_id" />
+                            <field name="oauth_scope" />
+                        </group>
+                    </group>
+                    <group string="Payload">
+                        <field name="request_data" string="Request" />
+                        <field name="response_data" string="Response" />
+                        <field name="error_message" string="Error" />
+                        <field name="error_code" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="adv_event_log_view_search" model="ir.ui.view">
+        <field name="name">adv.event.search</field>
+        <field name="model">adv.event</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="user_id" />
+                <field name="resource_name" string="Resource" />
+                <field name="event_kind" string="Event" />
+                <field name="event_class" string="Class" />
+                <filter name="security" string="Security" domain="[('event_class','=','security')]" />
+                <filter name="high_risk" string="High Risk" domain="[('risk_score','&gt;=',6)]" />
+                <filter name="errors" string="Errors" domain="[('event_kind','=','error')]" />
+                <filter name="today" string="Today"
+                    domain="[('create_date','&gt;=', (context_today()).strftime('%Y-%m-%d'))]" />
+            </search>
+        </field>
+    </record>
+
+    <record id="action_adv_audit_log" model="ir.actions.act_window">
+        <field name="name">Gateway Events</field>
+        <field name="res_model">adv.event</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

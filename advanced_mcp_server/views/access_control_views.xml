@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="adv_module_access_view_list" model="ir.ui.view">
+        <field name="name">adv.module.access.list</field>
+        <field name="model">adv.module.access</field>
+        <field name="arch" type="xml">
+            <list string="Adv MCP Module Access">
+                <header>
+                    <button name="%(advanced_mcp_server.action_adv_module_picker)d" type="action" string="Add Modules" class="btn btn-primary" display="always" />
+                </header>
+                <field name="module_id" widget="many2one_avatar" options='{"avatarField": "avatar_128"}' />
+                <field name="module_name" optional="hide" />
+                <field name="write_date" string="Last Modified" />
+                <field name="write_uid" string="Modified By" />
+                <field name="allow_read" widget="boolean_toggle" />
+                <field name="allow_create" widget="boolean_toggle" />
+                <field name="allow_write" widget="boolean_toggle" />
+                <field name="allow_unlink" widget="boolean_toggle" />
+                <field name="allow_method_calls" widget="boolean_toggle" />
+                <field name="active" widget="boolean_toggle" optional="hide" />
+            </list>
+        </field>
+    </record>
+
+    <record id="adv_module_access_view_form" model="ir.ui.view">
+        <field name="name">adv.module.access.form</field>
+        <field name="model">adv.module.access</field>
+        <field name="arch" type="xml">
+            <form string="Module Access">
+                <sheet>
+                    <group>
+                        <field name="module_id" widget="many2one_avatar" options="{'avatarField': 'avatar_128', 'no_create_edit': True, 'no_quick_create': True}" />
+                        <field name="module_name" readonly="1" />
+                        <field name="active" />
+                    </group>
+                    <div class="d-flex justify-content-end mb-2">
+                        <button name="action_sync_models" type="object"
+                            string="Sync Models" class="btn btn-secondary btn-sm"
+                            title="Re-sync model list after module upgrade" />
+                    </div>
+                    <group string="Module Permissions (ceiling for all models)">
+                        <group>
+                            <field name="allow_read" widget="boolean_toggle" />
+                            <field name="allow_create" widget="boolean_toggle" />
+                            <field name="allow_write" widget="boolean_toggle" />
+                        </group>
+                        <group>
+                            <field name="allow_unlink" widget="boolean_toggle" />
+                            <field name="allow_method_calls" widget="boolean_toggle" />
+                        </group>
+                    </group>
+                    <field name="model_ids" invisible="1" />
+                    <notebook>
+                        <page string="Per-Model Overrides" name="model_overrides">
+                            <p class="text-muted">
+                                Overrides can only further restrict module-level permissions.
+                                Models with no override row inherit all module permissions as-is.
+                            </p>
+                            <field name="model_access_ids">
+                                <list editable="bottom">
+                                    <field name="model_id"
+                                        domain="[('id', 'in', parent.model_ids)]"
+                                        options="{'no_create': True}" />
+                                    <field name="model_name" optional="hide" readonly="1" />
+                                    <field name="allow_read" widget="boolean_toggle"
+                                        column_invisible="not parent.allow_read" />
+                                    <field name="allow_create" widget="boolean_toggle"
+                                        column_invisible="not parent.allow_create" />
+                                    <field name="allow_write" widget="boolean_toggle"
+                                        column_invisible="not parent.allow_write" />
+                                    <field name="allow_unlink" widget="boolean_toggle"
+                                        column_invisible="not parent.allow_unlink" />
+                                    <field name="allow_method_calls" widget="boolean_toggle"
+                                        column_invisible="not parent.allow_method_calls" />
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="adv_module_access_view_search" model="ir.ui.view">
+        <field name="name">adv.module.access.search</field>
+        <field name="model">adv.module.access</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="module_id" />
+                <field name="module_name" />
+                <filter name="active" string="Active" domain="[('active','=',True)]" />
+            </search>
+        </field>
+    </record>
+
+    <record id="action_adv_module_access" model="ir.actions.act_window">
+        <field name="name">Adv MCP Module Access</field>
+        <field name="res_model">adv.module.access</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{"search_default_active": 1}</field>
+    </record>
+</odoo>

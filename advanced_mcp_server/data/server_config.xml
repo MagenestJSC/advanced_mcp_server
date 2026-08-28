@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data noupdate="1">
+        <record id="adv_server_config_default" model="adv.server.config">
+            <field name="enabled" eval="False" />
+            <field name="enable_oauth" eval="True" />
+            <field name="enable_rate_limiting" eval="False" />
+            <field name="request_limit">300</field>
+            <field name="enable_logging" eval="True" />
+            <field name="log_retention_days">30</field>
+            <field name="default_limit">10</field>
+            <field name="max_limit">100</field>
+            <field name="max_smart_fields">15</field>
+            <field name="max_related_items">3</field>
+        </record>
+    </data>
+</odoo>

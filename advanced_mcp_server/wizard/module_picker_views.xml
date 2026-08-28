@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="adv_module_picker_view_form" model="ir.ui.view">
+        <field name="name">adv.module.picker.form</field>
+        <field name="model">adv.module.picker</field>
+        <field name="arch" type="xml">
+            <form string="Add Modules for Adv MCP">
+                <sheet>
+                    <group>
+                        <div class="alert alert-info" role="alert">
+                            <strong>Tip:</strong> Select one or more installed modules to expose. All models belonging to those modules will be accessible via Adv MCP.
+                        </div>
+                    </group>
+                    <group>
+                        <field name="module_ids" widget="module_tags" />
+                    </group>
+                    <group string="Access Settings">
+                        <field name="allow_read" />
+                        <field name="allow_create" />
+                        <field name="allow_write" />
+                        <field name="allow_unlink" />
+                        <field name="allow_method_calls" />
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_confirm" string="Enable Selected Modules" type="object" class="btn-primary" data-hotkey="q" />
+                    <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="z" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_adv_module_picker" model="ir.actions.act_window">
+        <field name="name">Add Modules for Adv MCP</field>
+        <field name="res_model">adv.module.picker</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

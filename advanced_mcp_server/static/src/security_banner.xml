@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="web.ListRenderer" t-inherit="web.ListRenderer" t-inherit-mode="extension">
+        <xpath expr="//table" position="before">
+            <div t-if="showSecurityBanner"
+                class="alert alert-info mb-0 border-0 border-bottom rounded-0 py-2 px-3"
+                role="alert">
+                <strong>Note:</strong>
+                For AI to access a model, <strong>both conditions must be met</strong>:
+                the model is enabled here <strong>AND</strong> the user account must already have permission to access it in Odoo.
+                Enabling a model here does not automatically grant access if the account has no permission.
+            </div>
+        </xpath>
+    </t>
+
+</templates>
