@@ -6,7 +6,7 @@
         <field name="arch" type="xml">
             <list string="Adv MCP Module Access">
                 <header>
-                    <button name="%(advanced_mcp_server.action_adv_module_picker)d" type="action" string="Add Modules" class="btn btn-primary" display="always" />
+                    <button name="%(mgn_mcp_server.action_adv_module_picker)d" type="action" string="Add Modules" class="btn btn-primary" display="always" />
                 </header>
                 <field name="module_id" widget="many2one_avatar" options='{"avatarField": "avatar_128"}' />
                 <field name="module_name" optional="hide" />

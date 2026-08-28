@@ -166,7 +166,7 @@ class AdvOauthToken(models.Model, TokenMixin):
 
     def action_revoke(self):
         # Admin action: revoke the selected token(s).
-        if not self.env.user.has_group("advanced_mcp_server.group_adv_admin"):
+        if not self.env.user.has_group("mgn_mcp_server.group_adv_admin"):
             raise AccessError(_("Only Adv MCP administrators may revoke OAuth tokens."))
         self.sudo()._revoke()
 

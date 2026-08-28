@@ -76,7 +76,7 @@ def _security_headers(response):
 
 def _render_authorize_error(description):
     response = request.render(
-        "advanced_mcp_server.adv_oauth_error", {"error_description": description}
+        "mgn_mcp_server.adv_oauth_error", {"error_description": description}
     )
     response.status_code = 400
     return _security_headers(response)
@@ -125,7 +125,7 @@ def _render_consent(grant):
         },
         "csrf_token": request.csrf_token(),
     }
-    response = request.render("advanced_mcp_server.adv_oauth_consent", qcontext)
+    response = request.render("mgn_mcp_server.adv_oauth_consent", qcontext)
     return _security_headers(response)
 
 

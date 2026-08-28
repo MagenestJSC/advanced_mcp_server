@@ -61,7 +61,7 @@ class AdvOauthClient(models.Model, ClientMixin):
 
     def action_deactivate(self):
         # Admin action: block this client's access.
-        if not self.env.user.has_group("advanced_mcp_server.group_adv_admin"):
+        if not self.env.user.has_group("mgn_mcp_server.group_adv_admin"):
             raise AccessError(
                 _("Only Adv MCP administrators may change OAuth client status.")
             )
@@ -69,7 +69,7 @@ class AdvOauthClient(models.Model, ClientMixin):
 
     def action_activate(self):
         # Admin action: re-enable a deactivated client.
-        if not self.env.user.has_group("advanced_mcp_server.group_adv_admin"):
+        if not self.env.user.has_group("mgn_mcp_server.group_adv_admin"):
             raise AccessError(
                 _("Only Adv MCP administrators may change OAuth client status.")
             )

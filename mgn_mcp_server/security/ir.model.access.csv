@@ -1,0 +1,19 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_adv_module_access_admin,adv.module.access admin,model_adv_module_access,mgn_mcp_server.group_adv_admin,1,1,1,1
+access_adv_module_access_user,adv.module.access user,model_adv_module_access,mgn_mcp_server.group_adv_user,1,0,0,0
+access_adv_server_config_admin,adv.server.config admin,model_adv_server_config,mgn_mcp_server.group_adv_admin,1,1,1,0
+access_ir_model_adv_admin,ir.model adv admin,base.model_ir_model,mgn_mcp_server.group_adv_admin,1,0,0,0
+access_ir_model_adv_user,ir.model adv user,base.model_ir_model,mgn_mcp_server.group_adv_user,1,0,0,0
+access_ir_module_module_adv_admin,ir.module.module adv admin,base.model_ir_module_module,mgn_mcp_server.group_adv_admin,1,0,0,0
+access_ir_module_module_adv_user,ir.module.module adv user,base.model_ir_module_module,mgn_mcp_server.group_adv_user,1,0,0,0
+access_adv_module_picker_admin,adv.module.picker admin,model_adv_module_picker,mgn_mcp_server.group_adv_admin,1,1,1,1
+access_res_users_apikeys_adv_admin,res.users.apikeys adv admin,base.model_res_users_apikeys,mgn_mcp_server.group_adv_admin,1,0,0,0
+access_res_users_apikeys_adv_user,res.users.apikeys adv user,base.model_res_users_apikeys,mgn_mcp_server.group_adv_user,1,0,0,0
+access_adv_event_admin,adv.event admin,model_adv_event,mgn_mcp_server.group_adv_admin,1,0,0,0
+access_adv_oauth_client_admin,adv.oauth.client admin,model_adv_oauth_client,mgn_mcp_server.group_adv_admin,1,0,0,0
+access_adv_oauth_code_admin,adv.oauth.code admin,model_adv_oauth_code,mgn_mcp_server.group_adv_admin,1,0,0,0
+access_adv_oauth_token_admin,adv.oauth.token admin,model_adv_oauth_token,mgn_mcp_server.group_adv_admin,1,0,0,0
+access_adv_custom_tool_admin,adv.custom.tool admin,model_adv_custom_tool,mgn_mcp_server.group_adv_admin,1,1,1,1
+access_adv_bulk_action_admin,adv.bulk.action admin,model_adv_bulk_action,mgn_mcp_server.group_adv_admin,1,1,1,1
+access_adv_model_access_admin,adv.model.access admin,model_adv_model_access,mgn_mcp_server.group_adv_admin,1,1,1,1
+access_adv_model_access_user,adv.model.access user,model_adv_model_access,mgn_mcp_server.group_adv_user,1,0,0,0

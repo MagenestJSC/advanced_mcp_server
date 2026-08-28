@@ -30,9 +30,9 @@
     ],
     "assets": {
         "web.assets_backend": [
-            "advanced_mcp_server/static/src/security_banner.js",
-            "advanced_mcp_server/static/src/security_banner.xml",
-            "advanced_mcp_server/static/src/module_tags_field.js",
+            "mgn_mcp_server/static/src/security_banner.js",
+            "mgn_mcp_server/static/src/security_banner.xml",
+            "mgn_mcp_server/static/src/module_tags_field.js",
         ],
     },
     "installable": True,
