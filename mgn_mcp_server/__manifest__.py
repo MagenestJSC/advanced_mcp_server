@@ -36,8 +36,7 @@
         ],
     },
     "images": [
-        "static/description/thumbnail.png",
-        "static/description/icon.png",
+        "images/main.png",
     ],
     "installable": True,
     "application": True,
