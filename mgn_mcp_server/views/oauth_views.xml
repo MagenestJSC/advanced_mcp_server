@@ -67,7 +67,7 @@
         <field name="code">
 action = env['adv.bulk.action'].create({'operation': 'revoke'}).with_context(active_ids=env.context.get('active_ids',[])).action_form()
         </field>
-        <field name="group_ids" eval="[(4, ref('advanced_mcp_server.group_adv_admin'))]" />
+        <field name="group_ids" eval="[(4, ref('mgn_mcp_server.group_adv_admin'))]" />
     </record>
 
     <record id="action_adv_bulk_deactivate_clients" model="ir.actions.server">
@@ -78,6 +78,6 @@ action = env['adv.bulk.action'].create({'operation': 'revoke'}).with_context(act
         <field name="code">
 action = env['adv.bulk.action'].create({'operation': 'deactivate'}).with_context(active_ids=env.context.get('active_ids',[])).action_form()
         </field>
-        <field name="group_ids" eval="[(4, ref('advanced_mcp_server.group_adv_admin'))]" />
+        <field name="group_ids" eval="[(4, ref('mgn_mcp_server.group_adv_admin'))]" />
     </record>
 </odoo>

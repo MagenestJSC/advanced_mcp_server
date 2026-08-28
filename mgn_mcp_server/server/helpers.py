@@ -193,7 +193,7 @@ def map_method_to_operation(method: str) -> Optional[str]:
 
 def server_version() -> str:
     try:
-        manifest = modules.module.get_manifest("advanced_mcp_server")
+        manifest = modules.module.get_manifest("mgn_mcp_server")
         return manifest.get("version", "1.0.0")
     except Exception as e:
         _logger.error(f"Error retrieving adv_mcp server version: {e}")

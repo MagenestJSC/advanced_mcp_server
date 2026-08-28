@@ -60,7 +60,7 @@ def max_requests_for_uid(uid: int) -> int:
         cfg = request.env["adv.server.config"].sudo()._get_config()
         if cfg.admin_request_limit > 0:
             user = request.env["res.users"].sudo().browse(uid)
-            if user.has_group("advanced_mcp_server.group_adv_admin"):
+            if user.has_group("mgn_mcp_server.group_adv_admin"):
                 return cfg.admin_request_limit
         return cfg.request_limit or 300
     except Exception:

@@ -33,7 +33,7 @@ _SCRUB_PATTERNS = (
     (re.compile(r"<class '[^']+'>"), ""),
     (re.compile(r"\b[Oo]bject at 0x[0-9a-fA-F]+"), "object"),
     (re.compile(r"\bat 0x[0-9a-fA-F]+"), ""),
-    (re.compile(r"\b(?:odoo|advanced_mcp_server)\.[A-Za-z0-9_.]+:"), ""),
+    (re.compile(r"\b(?:odoo|mgn_mcp_server)\.[A-Za-z0-9_.]+:"), ""),
     (re.compile(r"\bpsycopg2(?:\.[A-Za-z0-9_.]+)?\b", re.IGNORECASE), ""),
 )
 

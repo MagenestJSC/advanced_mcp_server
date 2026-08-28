@@ -51,7 +51,7 @@ class AdvServerConfig(models.Model):
 
     @api.model
     def _get_config(self):
-        return self.env.ref("advanced_mcp_server.adv_server_config_default")
+        return self.env.ref("mgn_mcp_server.adv_server_config_default")
 
     @api.model_create_multi
     def create(self, vals_list):

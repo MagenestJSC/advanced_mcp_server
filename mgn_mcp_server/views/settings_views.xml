@@ -36,22 +36,22 @@
                     </group>
                     <group string="Quick Links" invisible="not enabled">
                         <div>
-                            <button name="%(advanced_mcp_server.action_adv_module_access)d"
+                            <button name="%(mgn_mcp_server.action_adv_module_access)d"
                                 icon="oi-arrow-right" type="action"
                                 string="Module Access" class="btn-link" />
                         </div>
                         <div>
-                            <button name="%(advanced_mcp_server.action_adv_custom_tool)d"
+                            <button name="%(mgn_mcp_server.action_adv_custom_tool)d"
                                 icon="oi-arrow-right" type="action"
                                 string="Custom Tools" class="btn-link" />
                         </div>
                         <div>
-                            <button name="%(advanced_mcp_server.action_adv_audit_log)d"
+                            <button name="%(mgn_mcp_server.action_adv_audit_log)d"
                                 icon="oi-arrow-right" type="action"
                                 string="Gateway Events" class="btn-link" />
                         </div>
                         <div>
-                            <button name="%(advanced_mcp_server.action_adv_oauth_clients)d"
+                            <button name="%(mgn_mcp_server.action_adv_oauth_clients)d"
                                 icon="oi-arrow-right" type="action"
                                 string="OAuth Clients" class="btn-link"
                                 invisible="not enable_oauth" />
