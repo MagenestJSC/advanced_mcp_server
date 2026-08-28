@@ -35,6 +35,10 @@
             "mgn_mcp_server/static/src/module_tags_field.js",
         ],
     },
+    "images": [
+        "static/description/thumbnail.png",
+        "static/description/icon.png",
+    ],
     "installable": True,
     "application": True,
     "license": "OPL-1",

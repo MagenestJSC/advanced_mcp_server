@@ -8,7 +8,10 @@ _build/
 # compiled python files
 *.py[co]
 __pycache__/
+# macOS
 .DS_Store
+__MACOSX/
+._*
 # setup.py egg_info
 *.egg-info
 # emacs backup files
